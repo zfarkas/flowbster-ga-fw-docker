@@ -16,7 +16,7 @@ nodes:
                 app:
                     exe:
                         filename: preprocess.sh
-                        url: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/preprocess.sh
+                        tgzurl: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/preprocess.tgz
                     args: ''
                     in:
                         -
@@ -29,14 +29,12 @@ nodes:
     - &PROCESS
         name: PROCESS
         type: docker_flowbster_node
-        scaling:
-                min: 2
         variables:
             flowbster:
                 app:
                     exe:
                         filename: process.sh
-                        url: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/process.sh
+                        tgzurl: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/process.tgz
                     args: ''
                     in:
                         -
@@ -54,7 +52,7 @@ nodes:
                 app:
                     exe:
                         filename: postprocess.hu
-                        url: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/postprocess.sh
+                        tgzurl: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/postprocess.tgz
                     args: ''
                     in:
                         -
