@@ -51,7 +51,7 @@ nodes:
             flowbster:
                 app:
                     exe:
-                        filename: postprocess.hu
+                        filename: postprocess.sh
                         tgzurl: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/postprocess.tgz
                     args: ''
                     in:
