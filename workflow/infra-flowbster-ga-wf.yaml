@@ -3,8 +3,8 @@ user_id: zoltan.farkas@sztaki.mta.hu
 
 variables:
     flowbster_global:
-            gather_ip: &gatherip 172.17.0.4
-            gather_port: &gatherport 5001
+            gather_ip: &gatherip 172.17.0.6
+            gather_port: &gatherport 6000
             receiver_port: &receiverport 5000
 
 nodes:
