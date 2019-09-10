@@ -10,6 +10,11 @@ There are two main components participating in this example:
 - the Flowbster workflow,
 - the `looper` component.
 
+The following figure shows the outline of the architecture:
+
+![Flowbster loop example](flowbster-ga-example-architecture.png)
+
+
 ## The Flowbster workflow
 
 The workflow is really simple:
