@@ -20,6 +20,7 @@ def checkloop(f):
         if value == 1:
             log.info('FINISHED!!!')
         else:
+            log.info("Step %d, invoking again..." % value)
             yaml_id = str(uuid.uuid4())
             yaml_data = """
             wfid: %s
