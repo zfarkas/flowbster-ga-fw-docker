@@ -2,8 +2,6 @@
 
 V=`cat data.txt`
 
-sleep $V
-
-R=$((V/2))
+R=$((V-1))
 
 echo "$R" > result.txt
