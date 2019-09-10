@@ -28,10 +28,11 @@ def checkloop(f):
                 -
                     name: input-data.txt
                     post_file: input-data.txt
-            """ % yaml_data
+            """ % yaml_id
             files = {}
             files["input-data.txt"] = open(f, "rb")
             files[yaml_id] = yaml_data
+            payload = {'yaml': yaml_id}
             global TARGET_IP
             requests.post("http://%s:5000/flowbster" % TARGET_IP, files=files, params=payload)
 
