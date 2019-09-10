@@ -1,0 +1,16 @@
+'node_def:docker_flowbster_node':
+  -
+    resource:
+      type: docker
+      endpoint: unix://var/run/docker.sock
+      origin: dockerhub
+      image: zfarkas/flowbster
+      tag: latest
+    contextualisation:
+      type: docker
+      context_variables: !text_import
+        url: file://flowbster-config.yaml
+      env: ["FLOWBSTER_SYS_CFG={{context_variables.sysconfig|b64encode}}", "FLOWBSTER_APP_CFG={{context_variables.appconfig|b64encode}}"]
+      command: "/usr/bin/flowbster-run.sh"
+    health_check:
+      ping: False

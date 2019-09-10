@@ -1,0 +1,73 @@
+infra_name: flowbster-ga-wf
+user_id: zoltan.farkas@sztaki.mta.hu
+
+variables:
+    flowbster_global:
+            gather_ip: &gatherip 172.17.0.4
+            gather_port: &gatherport 5001
+            receiver_port: &receiverport 5000
+
+nodes:
+    - &PREPROCESS
+        name: PREPROCESS
+        type: docker_flowbster_node
+        variables:
+            flowbster:
+                app:
+                    exe:
+                        filename: preprocess.sh
+                        url: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/preprocess.sh
+                    args: ''
+                    in:
+                        -
+                            name: input-data.txt
+                    out:
+                        -
+                            name: output-data.txt
+                            targetname: data.txt
+                            targetnode: PROCESS
+    - &PROCESS
+        name: PROCESS
+        type: docker_flowbster_node
+        scaling:
+                min: 2
+        variables:
+            flowbster:
+                app:
+                    exe:
+                        filename: process.sh
+                        url: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/process.sh
+                    args: ''
+                    in:
+                        -
+                            name: data.txt
+                    out:
+                        -
+                            name: result.txt
+                            targetname: result.txt
+                            targetnode: POSTPROCESS
+    - &POSTPROCESS
+        name: POSTPROCESS
+        type: docker_flowbster_node
+        variables:
+            flowbster:
+                app:
+                    exe:
+                        filename: postprocess.hu
+                        url: https://github.com/zfarkas/flowbster-ga-fw-docker/raw/master/workflow/postprocess.sh
+                    args: ''
+                    in:
+                        -
+                            name: result.txt
+                    out:
+                        -
+                            name: output.txt
+                            targetname: FINAL_result
+                            targetip: *gatherip
+                            targetport: *gatherport
+
+dependencies:
+    -
+        connection: [ *PREPROCESS, *PROCESS ]
+    -
+        connection: [ *PROCESS, *POSTPROCESS ]
