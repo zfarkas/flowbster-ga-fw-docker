@@ -2,9 +2,11 @@ import yaml
 import os, sys, stat
 from flask import Flask, request, abort, jsonify
 import logging as log
+import requests
+import uuid
 
 DEF_HOST = '0.0.0.0'
-DEF_PORT = 5001
+DEF_PORT = 6000
 DEF_RESDIR = '/tmp/ga_results'
 DEF_ROUTEPATH = "/flowbster"
 DEF_LOGLEVEL = log.DEBUG
@@ -18,7 +20,19 @@ def checkloop(f):
         if value == 1:
             log.info('FINISHED!!!')
         else:
-            newv = value
+            yaml_id = str(uuid.uuid4())
+            yaml_data = """
+            wfid: %s
+            inputs:
+                -
+                    name: input-data.txt
+                    post_file: input-data.txt
+            """ % yaml_data
+            files = {}
+            files["input-data.txt"] = open(f, "rb")
+            files[yaml_id] = yaml_data
+            global TARGET_IP
+            requests.post("http://%s:5000/flowbster" % TARGET_IP, files=files, params=payload)
 
 def create_dir(path):
     if not os.path.exists(path): os.makedirs(path)
